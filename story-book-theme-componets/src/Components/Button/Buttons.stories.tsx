@@ -1,135 +1,69 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './Buttons';
-import { fn } from '@storybook/test';
+import { Meta, StoryFn } from '@storybook/react';
 
-const meta = {
-  title: 'Components/Button',
-  component: Button,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
+import CustomButton from './Buttons';
+
+export default {
+  title: 'Components/CustomButton',
+  component: CustomButton,
   argTypes: {
-    backgroundColor: { control: 'color' },
-    size: {
-      control: 'select',
-      options: ['small', 'medium', 'large', 'custom'],
-    },
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'danger'],
-    },
+    type: { control: 'select', options: ['button', 'submit', 'reset'] },
     shape: {
       control: 'select',
-      options: ['rounded', 'roundedRectangle', 'circle'],
+      options: ['roundedRectangle', 'circle', 'rectangle'],
     },
-    width: {
-      control: 'text',
-      if: { arg: 'size', eq: 'custom' },
-    },
-    height: {
-      control: 'text',
-      if: { arg: 'size', eq: 'custom' },
-    },
-    disabled: { control: 'boolean' },
+    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    children: { control: 'text' },
     loading: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    buttonHoverBackgroundColor: { control: 'color' },
+    style: { control: 'object' },
   },
-  args: { onClick: fn() },
-} satisfies Meta<typeof Button>;
+} as Meta<typeof CustomButton>;
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+const Template: StoryFn<typeof CustomButton> = (args) => (
+  <CustomButton {...args} />
+);
 
-export const Primary: Story = {
-  args: {
-    label: 'Primary Button',
-    variant: 'primary',
-    size: 'medium',
-  },
+export const Primary = Template.bind({});
+Primary.args = {
+  type: 'button',
+  shape: 'roundedRectangle',
+  size: 'medium',
+  children: 'Save', // Button label
+  // startIcon: <SaveIcon />,
+  // endIcon: <DeleteIcon />,
+  loading: false,
+  disabled: false,
+  buttonHoverBackgroundColor: '#3f51b5',
+  style: { backgroundColor: '#3f51b5', color: 'white' },
 };
 
-export const Secondary: Story = {
-  args: {
-    label: 'Secondary Button',
-    variant: 'secondary',
-    size: 'medium',
-  },
+export const Loading = Template.bind({});
+Loading.args = {
+  ...Primary.args,
+  loading: true,
+  children: 'Loading',
 };
 
-export const Danger: Story = {
-  args: {
-    label: 'Danger Button',
-    variant: 'danger',
-    size: 'medium',
-  },
+export const Disabled = Template.bind({});
+Disabled.args = {
+  ...Primary.args,
+  disabled: true,
+  children: 'Disabled',
 };
 
-export const Small: Story = {
-  args: {
-    label: 'Small Button',
-    size: 'small',
-    variant: 'primary',
-  },
+export const CircleShape = Template.bind({});
+CircleShape.args = {
+  ...Primary.args,
+  shape: 'circle',
+  children: 'Go',
+  style: { backgroundColor: '#ff5722', color: 'white' },
 };
 
-export const Medium: Story = {
-  args: {
-    label: 'Medium Button',
-    size: 'medium',
-    variant: 'primary',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    label: 'Large Button',
-    size: 'large',
-    variant: 'primary',
-  },
-};
-
-export const CustomSize: Story = {
-  args: {
-    label: 'Custom Size',
-    size: 'custom',
-    width: '200px',
-    height: '60px',
-    variant: 'primary',
-  },
-};
-
-export const WithLoading: Story = {
-  args: {
-    label: 'Loading Button',
-    loading: true,
-    variant: 'primary',
-    size: 'medium',
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    label: 'Disabled Button',
-    disabled: true,
-    variant: 'primary',
-    size: 'medium',
-  },
-};
-
-export const RoundedShape: Story = {
-  args: {
-    label: 'Rounded Button',
-    shape: 'rounded',
-    variant: 'primary',
-    size: 'medium',
-  },
-};
-
-export const CircleShape: Story = {
-  args: {
-    label: '🔔',
-    shape: 'circle',
-    variant: 'primary',
-    size: 'medium',
-  },
+export const LargeSize = Template.bind({});
+LargeSize.args = {
+  ...Primary.args,
+  size: 'large',
+  children: 'Large Button',
+  style: { backgroundColor: '#673ab7', color: 'white' },
 };
