@@ -1,0 +1,1 @@
+import"./index-DRjF_FHU.js";import{T as m,d as t}from"./createSimplePaletteValueFilter-oTkLXce8.js";import{u as o}from"./createSvgIcon-BAzP-N4j.js";function a(){const e=o(t);return e[m]||e}export{a as u};
